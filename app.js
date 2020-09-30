@@ -61,18 +61,18 @@ const Questions = {
 		},
 		{
 			type: "input",
-			message: "What is your name?",
-			name: "name",
+			message: "What is your id?",
+			name: "id",
 		},
 		{
 			type: "input",
-			message: "What is your name?",
-			name: "name",
+			message: "What is your email?",
+			name: "email",
 		},
 		{
 			type: "input",
-			message: "What is your name?",
-			name: "name",
+			message: "What is your github username?",
+			name: "github",
 		},
 	],
 	Intern: [
@@ -83,18 +83,18 @@ const Questions = {
 		},
 		{
 			type: "input",
-			message: "What is your name?",
-			name: "name",
+			message: "What is your id?",
+			name: "id",
 		},
 		{
 			type: "input",
-			message: "What is your name?",
-			name: "name",
+			message: "What is your email?",
+			name: "email",
 		},
 		{
 			type: "input",
-			message: "What is your name?",
-			name: "name",
+			message: "What did you go to school?",
+			name: "school",
 		},
 	],
 };
