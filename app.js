@@ -146,12 +146,20 @@ function addManager() {
 
 function addEngineer() {
 	// user inquirer to ask Engineer questions
+	inquirer.prompt(Questions.Engineer).then(function (response) {
+		const engineerObj = new Engineer(response.name, response.id, response.email, response.github);
+		teamMembers.push(engineerObj);
+	});
 	// create a new Engineer object
 	// push the Engineer object to the teamMembers array
 }
 
 function addIntern() {
 	// user inquirer to ask Intern questions
+	inquirer.prompt(Questions.Intern).then(function (response) {
+		const internObj = new Intern(response.name, response.id, response.email, response.school);
+		teamMembers.push(internObj);
+	});
 	// create a new Intern object
 	// push the Intern object to the teamMembers array
 }
