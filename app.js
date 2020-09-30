@@ -30,11 +30,131 @@ const questionTwoRole = {
 	choices: ["Manager", "Engineer", "Intern"],
 };
 
-const questionThreeFileName = {
-	type: "input",
-	message: "What would you like to name the file?",
-	name: "fileName",
+const Questions = {
+	Manager: [
+		{
+			type: "input",
+			message: "What is your name?",
+			name: "name",
+		},
+		{
+			type: "input",
+			message: "What is your id?",
+			name: "id",
+		},
+		{
+			type: "input",
+			message: "What is your email?",
+			name: "email",
+		},
+		{
+			type: "input",
+			message: "What is your office number?",
+			name: "officeNumber",
+		},
+	],
+	Engineer: [
+		{
+			type: "input",
+			message: "What is your name?",
+			name: "name",
+		},
+		{
+			type: "input",
+			message: "What is your name?",
+			name: "name",
+		},
+		{
+			type: "input",
+			message: "What is your name?",
+			name: "name",
+		},
+		{
+			type: "input",
+			message: "What is your name?",
+			name: "name",
+		},
+	],
+	Intern: [
+		{
+			type: "input",
+			message: "What is your name?",
+			name: "name",
+		},
+		{
+			type: "input",
+			message: "What is your name?",
+			name: "name",
+		},
+		{
+			type: "input",
+			message: "What is your name?",
+			name: "name",
+		},
+		{
+			type: "input",
+			message: "What is your name?",
+			name: "name",
+		},
+	],
 };
+
+function createTeam() {
+	inquirer.prompt(questionOneAddPop).then(function (response) {
+		if (response.add === "Add Member") {
+			// call addMember function
+			addMember();
+		} else {
+			// call printTeam function
+			printTeam();
+		}
+	});
+}
+
+function printTeam() {
+	// call render function and pass teamMembers array to it - store result in variable.
+	const teamMembersHTML = render(teamMembers);
+	// write result to output file
+	fs.writeFileSync(outputPath, teamMembersHTML);
+}
+
+function addMember() {
+	// use inquirer to ask the user which member to add
+	inquirer.prompt(questionTwoRole).then(function (response) {
+		if (response.role === "Manager") {
+			addManager();
+		} else if (response.role === "Engineer") {
+			addEngineer();
+		} else if (response.role === "Intern") {
+			addIntern();
+		}
+	});
+	// if the user chooses manager call manager function
+	// if the user chooses Engineer call eng function
+	// if the user chooses Intern call intern function
+}
+
+function addManager() {
+	// user inquirer to ask manager questions
+	inquirer.prompt(Questions.Manager).then(function (response) {
+		const managerObj = new Manager(response.name, response.id, response.email, response.officeNumber);
+		teamMembers.push(managerObj);
+	});
+	// create a new manager object
+	// push the manager object to the teamMembers array
+}
+
+function addEngineer() {
+	// user inquirer to ask Engineer questions
+	// create a new Engineer object
+	// push the Engineer object to the teamMembers array
+}
+
+function addIntern() {
+	// user inquirer to ask Intern questions
+	// create a new Intern object
+	// push the Intern object to the teamMembers array
+}
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
