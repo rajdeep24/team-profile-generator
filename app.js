@@ -16,99 +16,61 @@ const render = require("./lib/htmlRenderer");
 //Store your team members to an array th
 let teamMembers = [];
 
-const questionOneAddPop = {
-	type: "list",
-	message: "Would like to add a member or populate the current team?",
-	name: "add",
-	choices: ["Add Member", "Populate Team"],
-};
-
-const questionTwoRole = {
-	type: "list",
-	message: "What member would you like to add?",
-	name: "role",
-	choices: ["Manager", "Engineer", "Intern"],
-};
-
-const Questions = {
-	Manager: [
-		{
-			type: "input",
-			message: "What is your name?",
-			name: "name",
-		},
-		{
-			type: "input",
-			message: "What is your id?",
-			name: "id",
-		},
-		{
-			type: "input",
-			message: "What is your email?",
-			name: "email",
-		},
-		{
-			type: "input",
-			message: "What is your office number?",
-			name: "officeNumber",
-		},
-	],
-	Engineer: [
-		{
-			type: "input",
-			message: "What is your name?",
-			name: "name",
-		},
-		{
-			type: "input",
-			message: "What is your id?",
-			name: "id",
-		},
-		{
-			type: "input",
-			message: "What is your email?",
-			name: "email",
-		},
-		{
-			type: "input",
-			message: "What is your github username?",
-			name: "github",
-		},
-	],
-	Intern: [
-		{
-			type: "input",
-			message: "What is your name?",
-			name: "name",
-		},
-		{
-			type: "input",
-			message: "What is your id?",
-			name: "id",
-		},
-		{
-			type: "input",
-			message: "What is your email?",
-			name: "email",
-		},
-		{
-			type: "input",
-			message: "What did you go to school?",
-			name: "school",
-		},
-	],
-};
-
 function createTeam() {
-	inquirer.prompt(questionOneAddPop).then(function (response) {
-		if (response.add === "Add Member") {
-			// call addMember function
-			addMember();
-		} else {
-			// call printTeam function
-			printTeam();
-		}
-	});
+	inquirer
+		.prompt([
+			{
+				//Name
+				type: "input",
+				name: "name",
+				message: "What is the employee's full name",
+			},
+
+			{
+				//ID Number
+				type: "input",
+				name: "id",
+				message: "What is the employee's ID number?",
+			},
+
+			{
+				//Email
+				type: "input",
+				name: "email",
+				message: "What is the employee's email address?",
+			},
+
+			{
+				//Role
+				type: "list",
+				name: "role",
+				message: "What is the employee's job title? Please choice one from the options:",
+				choices: ["Manager", "Engineer", "Intern"],
+			},
+		])
+		.then((response) => {
+			//Create a variable based on the users response to destruct the role object 
+			const { role } = response;
+
+			//Write a switch statement that will evaluate an expression for the role object
+			switch (role) {
+				//Create  targeted questions based on roles
+				//Prompt the user for the manager's office phone number
+				case "Manager":
+					targetedQuestions(role, "officeNumber", "What is your managers office phone number?", response);
+					break;
+
+				//Prompt the user for the engineers github username.
+				case "Engineer":
+					targetedQuestions(role, "github", "What is engineer's office phone number?", response);
+					break;
+
+				//Prompt the user for the intern's school.
+				case "Intern":
+					targetedQuestions(role, "school", "What school did the intern attend?", response);
+					break;
+			}
+		});
 }
 
 function printTeam() {
@@ -163,6 +125,8 @@ function addIntern() {
 	// create a new Intern object
 	// push the Intern object to the teamMembers array
 }
+
+createTeam();
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
