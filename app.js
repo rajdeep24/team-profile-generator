@@ -14,7 +14,7 @@ const render = require("./lib/htmlRenderer");
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 //Store your team members to an array th
-let teamMembers = [];
+let teamMember = [];
 
 function createTeam() {
 	inquirer
@@ -49,7 +49,7 @@ function createTeam() {
 			},
 		])
 		.then((response) => {
-			//Create a variable based on the users response to destruct the role object 
+			//Create a variable based on the users response to destruct the role object
 			const { role } = response;
 
 			//Write a switch statement that will evaluate an expression for the role object
@@ -73,58 +73,42 @@ function createTeam() {
 		});
 }
 
-function printTeam() {
-	// call render function and pass teamMembers array to it - store result in variable.
-	const teamMembersHTML = render(teamMembers);
-	// write result to output file
-	fs.writeFileSync(outputPath, teamMembersHTML);
-}
+//Prompt the user to answer questions about the targeted roles ()
 
-function addMember() {
-	// use inquirer to ask the user which member to add
-	inquirer.prompt(questionTwoRole).then(function (response) {
-		if (response.role === "Manager") {
-			addManager();
-		} else if (response.role === "Engineer") {
-			addEngineer();
-		} else if (response.role === "Intern") {
-			addIntern();
-		}
-	});
-	// if the user chooses manager call manager function
-	// if the user chooses Engineer call eng function
-	// if the user chooses Intern call intern function
-}
+const targetedQuestions = (role, inputType, message, response) => {
+	inquirer
+		.prompt([
+			{
+				type: "input",
+				name: inputType,
+				message: message,
+			},
+		])
+		.then((response) => {
+			let response;
+			for (let key in response) {
+				answer = response[key];
+			}
+			const { name, id, email } = mainResponses;
+			let employee;
 
-function addManager() {
-	// user inquirer to ask manager questions
-	inquirer.prompt(Questions.Manager).then(function (response) {
-		const managerObj = new Manager(response.name, response.id, response.email, response.officeNumber);
-		teamMembers.push(managerObj);
-	});
-	// create a new manager object
-	// push the manager object to the teamMembers array
-}
+			switch (role) {
+				case "Manager":
+					employee = new Manager(name, id, email, answer);
+					break;
 
-function addEngineer() {
-	// user inquirer to ask Engineer questions
-	inquirer.prompt(Questions.Engineer).then(function (response) {
-		const engineerObj = new Engineer(response.name, response.id, response.email, response.github);
-		teamMembers.push(engineerObj);
-	});
-	// create a new Engineer object
-	// push the Engineer object to the teamMembers array
-}
+				case "Engineer":
+					employee = new Engineer(name, id, email, answer);
+					break;
 
-function addIntern() {
-	// user inquirer to ask Intern questions
-	inquirer.prompt(Questions.Intern).then(function (response) {
-		const internObj = new Intern(response.name, response.id, response.email, response.school);
-		teamMembers.push(internObj);
-	});
-	// create a new Intern object
-	// push the Intern object to the teamMembers array
-}
+				case "Intern":
+					employee = new Intern(name, id, email, answer);
+					break;
+			}
+			teamMember.push(employee);
+			addTeamMember();
+		});
+};
 
 createTeam();
 
