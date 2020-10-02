@@ -4,9 +4,11 @@
 
 For this project, I successfully created a CLI node application that allows managers to generate a webpage that displays his or hers team's basic info so that they have access to emails and github profiles.
 
+The team-profile-generator was built as a NODE cli application that records pertinent information about a companies development team and then generates a HTML webpage with each team members name, id, email, and unique information based on the employee type: manager, engineer, and intern, respectively. The users can record any number of team members and can have a mixture of all employee types for each team. 
+
 Github Repo: <https://github.com/rajdeep24/team-profile-generator>
 
-## technologies used
+## Technologies used
 
 To successfully develop this app, I used the following technologies:
 
