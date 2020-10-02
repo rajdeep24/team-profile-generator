@@ -57,12 +57,12 @@ function createTeam() {
 				//Create  targeted questions based on roles
 				//Prompt the user for the manager's office phone number
 				case "Manager":
-					targetedQuestions(role, "officeNumber", "What is your managers office phone number?", mainResponse);
+					targetedQuestions(role, "officeNumber", "What is the managers office phone number?", mainResponse);
 					break;
 
 				//Prompt the user for the engineers github username.
 				case "Engineer":
-					targetedQuestions(role, "github", "What is engineer's office phone number?", mainResponse);
+					targetedQuestions(role, "github", "What is the engineer's github username?", mainResponse);
 					break;
 
 				//Prompt the user for the intern's school.
@@ -84,25 +84,25 @@ const targetedQuestions = (role, inputType, message, mainResponse) => {
 				message: message,
 			},
 		])
-		.then((response) => {
+		.then((responses) => {
 			let response;
-			for (let key in response) {
-				answer = response[key];
+			for (let key in responses) {
+				response = responses[key];
 			}
 			const { name, id, email } = mainResponse;
 			let employee;
 
 			switch (role) {
 				case "Manager":
-					employee = new Manager(name, id, email, answer);
+					employee = new Manager(name, id, email, response);
 					break;
 
 				case "Engineer":
-					employee = new Engineer(name, id, email, answer);
+					employee = new Engineer(name, id, email, response);
 					break;
 
 				case "Intern":
-					employee = new Intern(name, id, email, answer);
+					employee = new Intern(name, id, email, response);
 					break;
 			}
 			teamMember.push(employee);
@@ -111,22 +111,33 @@ const targetedQuestions = (role, inputType, message, mainResponse) => {
 };
 const addTeamMember = () => {
 	inquirer
-	.prompt([
-		{
-			type: "confirm",
-			name: "addAnother",
-			message: "Would you like to add another employee?"
-		},
-	])
-	.then((response)=>{
-		if (response.addAnother === true) {
-			createTeam();
-		} else {
-			const html = render(employeeInfo)
-			writeHTMLToFile(html);
+		.prompt([
+			{
+				type: "confirm",
+				name: "addAnother",
+				message: "Would you like to add another employee?",
+			},
+		])
+		.then((response) => {
+			if (response.addAnother === true) {
+				createTeam();
+			} else {
+				const html = render(teamMember);
+				writeHTMLFile(html);
+			}
+		});
+};
+
+// Create the HTML file using the returned from the render function above.
+
+const writeHTMLFile = (html) => {
+	fs.writeFile(outputPath, html, function (err) {
+		if (err) {
+			return console.log(err);
 		}
-	}) 
-}
+		console.log("Your HTML file has been successfully created.");
+	});
+};
 createTeam();
 
 // After the user has input all employees desired, call the `render` function (required
