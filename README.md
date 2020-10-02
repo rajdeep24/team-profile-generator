@@ -4,6 +4,8 @@
 
 For this project, I successfully created a CLI node application that allows managers to generate a webpage that displays his or hers team's basic info so that they have access to emails and github profiles.
 
+Github Repo: <https://github.com/rajdeep24/team-profile-generator>
+
 ## technologies used
 
 To successfully develop this app, I used the following technologies:
