@@ -48,26 +48,26 @@ function createTeam() {
 				choices: ["Manager", "Engineer", "Intern"],
 			},
 		])
-		.then((response) => {
+		.then((mainResponse) => {
 			//Create a variable based on the users response to destruct the role object
-			const { role } = response;
+			const { role } = mainResponse;
 
 			//Write a switch statement that will evaluate an expression for the role object
 			switch (role) {
 				//Create  targeted questions based on roles
 				//Prompt the user for the manager's office phone number
 				case "Manager":
-					targetedQuestions(role, "officeNumber", "What is your managers office phone number?", response);
+					targetedQuestions(role, "officeNumber", "What is your managers office phone number?", mainResponse);
 					break;
 
 				//Prompt the user for the engineers github username.
 				case "Engineer":
-					targetedQuestions(role, "github", "What is engineer's office phone number?", response);
+					targetedQuestions(role, "github", "What is engineer's office phone number?", mainResponse);
 					break;
 
 				//Prompt the user for the intern's school.
 				case "Intern":
-					targetedQuestions(role, "school", "What school did the intern attend?", response);
+					targetedQuestions(role, "school", "What school did the intern attend?", mainResponse);
 					break;
 			}
 		});
@@ -75,7 +75,7 @@ function createTeam() {
 
 //Prompt the user to answer questions about the targeted roles ()
 
-const targetedQuestions = (role, inputType, message, response) => {
+const targetedQuestions = (role, inputType, message, mainResponse) => {
 	inquirer
 		.prompt([
 			{
@@ -89,7 +89,7 @@ const targetedQuestions = (role, inputType, message, response) => {
 			for (let key in response) {
 				answer = response[key];
 			}
-			const { name, id, email } = mainResponses;
+			const { name, id, email } = mainResponse;
 			let employee;
 
 			switch (role) {
@@ -109,7 +109,24 @@ const targetedQuestions = (role, inputType, message, response) => {
 			addTeamMember();
 		});
 };
-
+const addTeamMember = () => {
+	inquirer
+	.prompt([
+		{
+			type: "confirm",
+			name: "addAnother",
+			message: "Would you like to add another employee?"
+		},
+	])
+	.then((response)=>{
+		if (response.addAnother === true) {
+			createTeam();
+		} else {
+			const html = render(employeeInfo)
+			writeHTMLToFile(html);
+		}
+	}) 
+}
 createTeam();
 
 // After the user has input all employees desired, call the `render` function (required
